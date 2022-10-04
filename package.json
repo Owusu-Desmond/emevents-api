@@ -20,5 +20,8 @@
   "homepage": "https://github.com/Owusu-Desmond/emevents-api#readme",
   "dependencies": {
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
   }
 }
