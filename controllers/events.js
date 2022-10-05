@@ -34,7 +34,7 @@ const createEvent = async (req, res) => {
 
         if (res.status(201)) {
             res.json({
-                "Success": `Event id ${id} created successfully`,
+                "Success": `Event created successfully`,
                 "Event": events[id]
             })
         } else {
@@ -53,7 +53,7 @@ const updateEvent = async (req, res) => {
         } else {
             events[req.params.id] = req.body
             res.json({
-                "Success": `Event id ${req.params.id } updated successfully`,
+                "Success": `Event updated successfully`,
                 "Event": events[req.params.id]
             })
         }
@@ -70,8 +70,8 @@ const deleteEvent = async (req, res) => {
         } else {
             delete events[req.params.id] // delete the event
             res.json({
-                "Success": "Event " + req.params.id + " deleted successfully",
-                "Events": events
+                "Success": "Event deleted successfully",
+                "Error": {}
             })
         }
     }
