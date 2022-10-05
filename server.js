@@ -1,26 +1,18 @@
 const express = require("express");
 require("dotenv").config();
+const bodyParser = require("body-parser");
+const routes = require("./routes/eventsRoutes");
+
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send("Hello world")
-})
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies, extended: true allows to parse nested objects    
 
-app.post('/', (req, res) => {
-    res.send("This is a post request")
-})
+app.use("/api", routes);
 
-app.put('/user', (req, res) => {
-    res.send("Got put request to the user route")
-})
-
-app.delete('/user', (req, res) => {
-    res.send("Got delete request to the user route")
-})
-    
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 })
