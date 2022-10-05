@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "lint": "eslint .",
     "start": "node server.js"
   },
   "repository": {
@@ -23,7 +24,11 @@
     "express": "^4.18.1"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "dotenv": "^16.0.3",
+    "eslint": "^8.24.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.20"
   }
 }
