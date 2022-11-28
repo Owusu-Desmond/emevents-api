@@ -71,7 +71,8 @@ describe('Event', () => {
           res.body.should.have.property('organizer').eql('Test Organizer');
           res.body.should.have.property('avatar').eql('Test avatar');
           done();
-        }).timeout(10000);
+        })
+        .timeout(10000);
     });
   });
 
@@ -98,7 +99,8 @@ describe('Event', () => {
           res.body.should.have.property('organizer').eql('Test Organizer');
           res.body.should.have.property('avatar').eql('Test avatar');
           done();
-        }).timeout(10000);
+        })
+        .timeout(10000);
     });
   });
 

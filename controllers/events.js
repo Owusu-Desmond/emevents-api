@@ -56,12 +56,12 @@ const deleteEvent = async (req, res) => {
 
 const searchEvents = async (req, res) => {
   try {
-    let query = {};
+    const query = {};
     if (req.query.title) {
       query.title = req.query.title;
-      const events = await Event.find( { $text: { $search: query.title } } );
+      const events = await Event.find({ $text: { $search: query.title } });
       res.status(200).json(events);
-    }else {
+    } else {
       const events = await Event.find();
       res.status(200).json(events);
     }

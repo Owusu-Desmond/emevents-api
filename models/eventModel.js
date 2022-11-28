@@ -29,14 +29,14 @@ const eventModel = new Schema({
     required: true,
   },
   organizer: { type: String, required: true },
-  avatar: { 
+  avatar: {
     type: String,
     default: 'https://mootup.com/wp-content/uploads/2020/07/Zoom-webinar-3d-8.8-screens-1024x576.png',
   },
   organizerLink: { type: String },
-  organizerAvatar: { 
+  organizerAvatar: {
     type: String,
-    default: 'https://img.freepik.com/premium-vector/person-avatar-design_24877-38137.jpg?w=2000', 
+    default: 'https://img.freepik.com/premium-vector/person-avatar-design_24877-38137.jpg?w=2000',
   },
 });
 
