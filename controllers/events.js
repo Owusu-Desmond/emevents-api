@@ -1,89 +1,80 @@
+const Event = require('../models/eventModel');
 
-const events = require('../data/events.json');
-
-const getAllEvents = async (req, res) => {
-    try {
-        if (Object.keys(events).length === 0) {
-            res.status(404).send("No events found");
-        }
-        res.status(200).json(events);
-    }
-    catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
+const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 const getEventById = async (req, res) => {
-    try {
-        if (!events[req.params.id]) {
-            return res.status(404).json({ error: 'Event not found' })
-        }
-        res.status(200).json(events[req.params.id])
+  try {
+    const event = await Event.findById(req.params.id);
+    if (event) {
+      return res.status(200).json(event);
     }
-    catch (error) {
-        res.status(500).json({ error: error.message });
+  } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid event ID' }); // 400 Bad Request
     }
-}
-    
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const createEvent = async (req, res) => {
-    try {
-        const id = Object.keys(events).length + 1
-        req.body.id = id
-        events[id] = req.body
-
-        if (res.status(201)) {
-            res.json({
-                "Success": `Event created successfully`,
-                "Event": events[id]
-            })
-        } else {
-            res.status(400).json({ error: 'Event not created' })
-        }
-    } 
-    catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
+  try {
+    const event = await Event.create(req.body);
+    res.status(201).json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const updateEvent = async (req, res) => {
-    try {
-        if (!events[req.params.id]) {
-            return res.status(404).json({ error: 'Event not found' })
-        } else {
-            events[req.params.id] = req.body
-            res.json({
-                "Success": `Event updated successfully`,
-                "Event": events[req.params.id]
-            })
-        }
+  try {
+    const event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (event) {
+      return res.status(200).json(event);
     }
-    catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const deleteEvent = async (req, res) => {
-    try {
-        if (!events[req.params.id]) {
-            return res.status(404).json({ error: 'Event not found' })
-        } else {
-            delete events[req.params.id] // delete the event
-            res.json({
-                "Success": "Event deleted successfully",
-                "Error": {}
-            })
-        }
+  try {
+    const event = await Event.findByIdAndDelete(req.params.id);
+    if (event) {
+      return res.status(200).json({ message: 'Event deleted successfully' });
     }
-    catch (error) {
-        res.status(500).json({ error: error.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const searchEvents = async (req, res) => {
+  try {
+    const query = {};
+    if (req.query.title) {
+      query.title = req.query.title;
+      const events = await Event.find({ $text: { $search: query.title } });
+      res.status(200).json(events);
+    } else {
+      const events = await Event.find();
+      res.status(200).json(events);
     }
-}
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports = {
-    getAllEvents,
-    getEventById,
-    createEvent,
-    updateEvent,
-    deleteEvent
-}
+  getEvents,
+  getEventById,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  searchEvents,
+};
